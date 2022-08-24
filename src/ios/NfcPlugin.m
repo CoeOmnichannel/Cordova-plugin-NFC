@@ -24,6 +24,8 @@
 
 @implementation NfcPlugin
 
+NSString *NFCReaderUsageDescription;
+
 - (void)pluginInitialize {
 
     NSLog(@"PhoneGap NFC - Cordova Plugin");
@@ -295,6 +297,8 @@
 // Handles scanNdef, scanTag, and beginSession
 - (void)startScanSession:(CDVInvokedUrlCommand*)command {
     
+    NFCReaderUsageDescription = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"NFCReaderUsageDescription"];
+    
     self.writeMode = NO;
     
     NSLog(@"shouldUseTagReaderSession %d", self.shouldUseTagReaderSession);
@@ -314,14 +318,14 @@
             self.nfcSession = [[NFCNDEFReaderSession alloc]initWithDelegate:self queue:nil invalidateAfterFirstRead:TRUE];
         }
         sessionCallbackId = [command.callbackId copy];
-        self.nfcSession.alertMessage = [self localizeString:@"NFCHoldNearTag" defaultValue:@"Hold near NFC tag to scan."];
+        self.nfcSession.alertMessage = [self localizeString:@"NFCHoldNearTag" defaultValue:NFCReaderUsageDescription];
         [self.nfcSession beginSession];
         
     } else if (@available(iOS 11.0, *)) {
         NSLog(@"iOS < 13, using NFCNDEFReaderSession");
         self.nfcSession = [[NFCNDEFReaderSession alloc]initWithDelegate:self queue:nil invalidateAfterFirstRead:TRUE];
         sessionCallbackId = [command.callbackId copy];
-        self.nfcSession.alertMessage = [self localizeString:@"NFCHoldNearTag" defaultValue:@"Hold near NFC tag to scan."];
+        self.nfcSession.alertMessage = [self localizeString:@"NFCHoldNearTag" defaultValue:NFCReaderUsageDescription];
         [self.nfcSession beginSession];
     } else {
         NSLog(@"iOS < 11, no NFC support");
