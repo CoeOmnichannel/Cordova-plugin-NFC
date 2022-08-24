@@ -13,6 +13,8 @@
     <keywords>nfc, NFC, NDEF</keywords>
     <repo>https://github.com/chariotsolutions/phonegap-nfc.git</repo>
     <issue>https://github.com/chariotsolutions/phonegap-nfc/issues</issue>
+    
+    <preference name="NFCReaderUsageDescription" default="Hold near NFC tag to scan."/>
 
     <platform name="android">
         <js-module src="www/phonegap-nfc.js" name="NFC">
