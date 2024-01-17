@@ -868,7 +868,7 @@ require('cordova/channel').onCordovaReady.subscribe(function() {
         var e = document.createEvent('Events');
         e.initEvent(message.type);
         e.tag = message.tag;
-        e.tag.id = message.id;
+        e.tag.id = message.id || message.tag.id;
         e.tag.isWritable = message.isWritable;
         e.tag.maxSize = message.maxSize;
         e.tag.techTypes = message.techTypes;
