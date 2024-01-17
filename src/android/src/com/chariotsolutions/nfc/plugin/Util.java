@@ -46,6 +46,7 @@ public class Util {
                 Log.e(TAG, "Failed to convert ndef into json: " + ndef.toString(), e);
             }
         }
+        System.out.println("1. JSON Content: " + json.toString());
         return json;
     }
 
@@ -60,6 +61,7 @@ public class Util {
                 Log.e(TAG, "Failed to convert tag into json: " + tag.toString(), e);
             }
         }
+        System.out.println("2. JSON Content: " + json.toString());
         return json;
     }
 
