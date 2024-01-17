@@ -245,6 +245,8 @@ public class NfcPlugin extends CordovaPlugin implements NfcAdapter.OnNdefPushCom
                 json = Util.tagToJSON(tag);
             }
 
+            System.out.println("3. JSON Content: " + json.toString());
+
             Intent tagIntent = new Intent();
             tagIntent.putExtra(NfcAdapter.EXTRA_TAG, tag);
             setIntent(tagIntent);
@@ -764,6 +766,8 @@ public class NfcPlugin extends CordovaPlugin implements NfcAdapter.OnNdefPushCom
     private JSONObject buildNdefJSON(Ndef ndef, Parcelable[] messages) {
 
         JSONObject json = Util.ndefToJSON(ndef);
+
+        System.out.println("4.JSON Content: " + json.toString());
 
         // ndef is null for peer-to-peer
         // ndef and messages are null for ndef format-able
