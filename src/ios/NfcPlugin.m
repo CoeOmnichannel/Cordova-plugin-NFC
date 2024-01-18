@@ -15,8 +15,8 @@
 @property (nonatomic, assign) BOOL sendCallbackOnSessionStart;
 @property (nonatomic, assign) BOOL returnTagInCallback;
 @property (nonatomic, assign) BOOL returnTagInEvent;
-@property (strong, nonatomic) NFCReaderSession *nfcSession API_AVAILABLE(ios(11.0));
-@property (strong, nonatomic) NFCNDEFMessage *messageToWrite API_AVAILABLE(ios(11.0));
+@property (strong, nonatomic) NFCReaderSession *nfcSession API_AVAILABLE(ios(12.0));
+@property (strong, nonatomic) NFCNDEFMessage *messageToWrite API_AVAILABLE(ios(12.0));
 @end
 
 @implementation NfcPlugin
@@ -28,12 +28,12 @@
 
     [super pluginInitialize];
     
-    if (@available(iOS 11, *)) {
+    if (@available(iOS 12, *)) {
         if (![NFCNDEFReaderSession readingAvailable]) {
             NSLog(@"NFC Support is NOT available");
         }
     } else {
-        NSLog(@"NFC Support is NOT available before iOS 11");
+        NSLog(@"NFC Support is NOT available before iOS 12");
     }
 }
 
