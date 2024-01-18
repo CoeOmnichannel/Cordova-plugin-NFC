@@ -126,7 +126,7 @@
     [self.nfcSession beginSession];
 }
 
-- (void)cancelScan:(CDVInvokedUrlCommand*)command API_AVAILABLE(ios(11.0)){
+- (void)cancelScan:(CDVInvokedUrlCommand*)command API_AVAILABLE(ios(12.0)){
     NSLog(@"cancelScan");
     if (self.nfcSession) {
         [self.nfcSession invalidateSession];
@@ -164,7 +164,7 @@
 - (void)enabled:(CDVInvokedUrlCommand *)command {
     NSLog(@"enabled");
     CDVPluginResult *pluginResult;
-    if (@available(iOS 11.0, *)) {
+    if (@available(iOS 12.0, *)) {
         if ([NFCNDEFReaderSession readingAvailable]) {
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         } else {
@@ -179,7 +179,7 @@
 #pragma mark - NFCNDEFReaderSessionDelegate
 
 // iOS 11 & 12
-- (void) readerSession:(NFCNDEFReaderSession *)session didDetectNDEFs:(NSArray<NFCNDEFMessage *> *)messages API_AVAILABLE(ios(11.0)) {
+- (void) readerSession:(NFCNDEFReaderSession *)session didDetectNDEFs:(NSArray<NFCNDEFMessage *> *)messages API_AVAILABLE(ios(12.0)) {
     NSLog(@"NFCNDEFReaderSession didDetectNDEFs");
     
     session.alertMessage = @"Tag successfully read.";
@@ -214,7 +214,7 @@
     
 }
 
-- (void) readerSession:(NFCNDEFReaderSession *)session didInvalidateWithError:(NSError *)error API_AVAILABLE(ios(11.0)) {
+- (void) readerSession:(NFCNDEFReaderSession *)session didInvalidateWithError:(NSError *)error API_AVAILABLE(ios(12.0)) {
     NSLog(@"readerSession ended");
     if (error.code == NFCReaderSessionInvalidationErrorFirstNDEFTagRead) { // not an error
         NSLog(@"Session ended after successful NDEF tag read");
@@ -224,7 +224,7 @@
     }
 }
 
-- (void) readerSessionDidBecomeActive:(nonnull NFCReaderSession *)session API_AVAILABLE(ios(11.0)) {
+- (void) readerSessionDidBecomeActive:(nonnull NFCReaderSession *)session API_AVAILABLE(ios(12.0)) {
     NSLog(@"readerSessionDidBecomeActive");
     [self sessionDidBecomeActive:session];
 }
@@ -295,7 +295,7 @@
         self.nfcSession.alertMessage = @"Hold near NFC tag to scan.";
         [self.nfcSession beginSession];
         
-    } else if (@available(iOS 11.0, *)) {
+    } else if (@available(iOS 12.0, *)) {
         NSLog(@"iOS < 13, using NFCNDEFReaderSession");
         self.nfcSession = [[NFCNDEFReaderSession new]initWithDelegate:self queue:nil invalidateAfterFirstRead:TRUE];
         sessionCallbackId = [command.callbackId copy];
@@ -442,7 +442,7 @@
     }
 }
 
-- (void) sessionDidBecomeActive:(NFCReaderSession *) session  API_AVAILABLE(ios(11.0)){
+- (void) sessionDidBecomeActive:(NFCReaderSession *) session  API_AVAILABLE(ios(12.0)){
     if (sessionCallbackId && self.sendCallbackOnSessionStart) {
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         [pluginResult setKeepCallback:@YES];
@@ -450,13 +450,13 @@
     }
 }
 
-- (void) closeSession:(NFCReaderSession *) session  API_AVAILABLE(ios(11.0)){
+- (void) closeSession:(NFCReaderSession *) session  API_AVAILABLE(ios(12.0)){
     // kill the callback so the Cordova doesn't get "Session invalidated by user"
     sessionCallbackId = NULL;
     [session invalidateSession];
 }
 
-- (void) closeSession:(NFCReaderSession *) session withError:(NSString *) errorMessage  API_AVAILABLE(ios(11.0)){
+- (void) closeSession:(NFCReaderSession *) session withError:(NSString *) errorMessage  API_AVAILABLE(ios(12.0)){
     [self sendError:errorMessage];
 
     // kill the callback so Cordova doesn't get "Session invalidated by user"
@@ -469,17 +469,17 @@
     }
 }
 
--(void) fireTagEvent:(NSDictionary *)metaData API_AVAILABLE(ios(11.0)) {
+-(void) fireTagEvent:(NSDictionary *)metaData API_AVAILABLE(ios(12.0)) {
     // Data is from a tag, but still ends up as an NDEF event in Javascript
     [self fireNdefEvent:nil metaData:metaData];
 }
 
--(void) fireNdefEvent:(NFCNDEFMessage *) ndefMessage API_AVAILABLE(ios(11.0)) {
+-(void) fireNdefEvent:(NFCNDEFMessage *) ndefMessage API_AVAILABLE(ios(12.0)) {
     [self fireNdefEvent:ndefMessage metaData:nil];
 }
 
 // TODO rename method since we're using the channel or callback instead of firing an event
--(void) fireNdefEvent:(NFCNDEFMessage *) ndefMessage metaData:(NSDictionary *)metaData API_AVAILABLE(ios(11.0)) {
+-(void) fireNdefEvent:(NFCNDEFMessage *) ndefMessage metaData:(NSDictionary *)metaData API_AVAILABLE(ios(12.0)) {
     NSLog(@"fireNdefEvent");
     
     NSMutableDictionary *nfcEvent = [NSMutableDictionary new];
@@ -505,7 +505,7 @@
 
 // NSDictionary representing an NFC tag
 // NSData fields are converted to uint8_t arrays
--(NSDictionary *) buildTagDictionary:(NFCNDEFMessage *) ndefMessage metaData: (NSDictionary *)metaData API_AVAILABLE(ios(11.0)) {
+-(NSDictionary *) buildTagDictionary:(NFCNDEFMessage *) ndefMessage metaData: (NSDictionary *)metaData API_AVAILABLE(ios(12.0)) {
     
     NSMutableDictionary *dictionary = [NSMutableDictionary new];
     
@@ -532,7 +532,7 @@
     return [dictionary copy];
 }
 
--(NSDictionary *) ndefRecordToNSDictionary:(NFCNDEFPayload *) ndefRecord API_AVAILABLE(ios(11.0)) {
+-(NSDictionary *) ndefRecordToNSDictionary:(NFCNDEFPayload *) ndefRecord API_AVAILABLE(ios(12.0)) {
     NSMutableDictionary *dict = [NSMutableDictionary new];
     dict[@"tnf"] = [NSNumber numberWithInt:(int)ndefRecord.typeNameFormat];
     dict[@"type"] = [self uint8ArrayFromNSData: ndefRecord.type];
