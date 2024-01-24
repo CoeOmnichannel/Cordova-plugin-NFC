@@ -486,6 +486,30 @@ var nfc = {
         cordova.exec(win, fail, "NfcPlugin", "showSettings", []);
     },
 
+    // iOS only - scan for NFC Tag using NFCTagReaderSession
+    scanTag: function (options) {
+        return new Promise(function(resolve, reject) {
+            cordova.exec(resolve, reject, "NfcPlugin", "scanTag", [options]);
+        });
+    },
+    
+    // iOS only - cancel NFC scan session
+    cancelScan: function () {
+        return new Promise(function(resolve, reject) {
+            cordova.exec(resolve, reject, "NfcPlugin", "cancelScan", []);
+        });
+    },
+
+    // iOS only
+    beginSession: function (win, fail) {
+        cordova.exec(win, fail, "NfcPlugin", "beginSession", []);
+    },
+
+    // iOS only
+    invalidateSession: function (win, fail) {
+        cordova.exec(win, fail, "NfcPlugin", "invalidateSession", []);
+    },
+
     // iOS only
     beginSession: function (win, fail) {
         cordova.exec(win, fail, "NfcPlugin", "beginSession", []);
